@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="en-US">
+  <script>
+    function getUniqueValuesFromColumn() {
+
+      var unique_col_values_dict = {}
+
+      allFilters = document.querySelectorAll(".table-filter")
+      allFilters.forEach((filter_i) => {
+          col_index = filter_i.parentElement.getAttribute("col-index");
+          // alert(col_index)
+          const rows = document.querySelectorAll("#table > tbody > tr")
+
+          rows.forEach((row) => {
+              cell_value = row.querySelector("td:nth-child("+col_index+")").innerHTML;
+              // if the col index is already present in the dict
+              if (col_index in unique_col_values_dict) {
+
+                  // if the cell value is already present in the array
+                  if (unique_col_values_dict[col_index].includes(cell_value)) {
+                      // alert(cell_value + " is already present in the array : " + unique_col_values_dict[col_index])
+
+                  } else {
+                      unique_col_values_dict[col_index].push(cell_value)
+                      // alert("Array after adding the cell value : " + unique_col_values_dict[col_index])
+
+                  }
+
+
+              } else {
+                  unique_col_values_dict[col_index] = new Array(cell_value)
+              }
+          });
+
+        });
+
+    for(i in unique_col_values_dict) {
+        alert("Column index : " + i + " has Unique values : \n" + unique_col_values_dict[i]);
+    }
+
+    updateSelectOptions(unique_col_values_dict)
+
+    };
+
+    // Add <option> tags to the desired columns based on the unique values
+
+    function updateSelectOptions(unique_col_values_dict) {
+    allFilters = document.querySelectorAll(".table-filter")
+
+    allFilters.forEach((filter_i) => {
+        col_index = filter_i.parentElement.getAttribute('col-index')
+
+        unique_col_values_dict[col_index].forEach((i) => {
+            filter_i.innerHTML = filter_i.innerHTML + `\n<option value="${i}">${i}</option>`
+        });
+
+    });
+    };    
+          });
+
+
+  </script>
+  <body>
+    <% if (json.project.production && !json.project.embedded) { %>
+      <%= t.include("partials/_gtmNoScript.html") %>
+    <% } %>
+    <responsive-child>
+      <div class="row_of_filters">
+        <div class="column">
+          <select id="district_filter">
+            <option value="All">All Districts</option>
+            <option value="Auburn">Auburn</option>
+            <option value="Highline">Highline</option>
+            <option value="Kent">Kent</option>
+            <option value="Skykomish">Skykomish</option>
+            <option value="Tahoma">Tahoma</option>
+            <option value="Vashon Island">Vashon Island</option>
+            <option value="Lake Washington">Lake Washington</option>
+            <option value="Northshore">Northshore</option>
+            <option value="Snoqualmie Valley">Snoqualmie Valley</option>
+            <option value="Seattle">Seattle</option>
+          </select>
+        </div>
+        <div class="column">
+          <select id="school_filter">
+            <option value="All">All Schools</option>
+            <option value="Mt Baker">Mt Baker</option>
+            <option value="Olympic">Olympic</option>
+            <option value="Cascade">Cascade</option>
+            <option value="Rainier">Rainier</option>
+            <option value="Glacier">Glacier</option>
+            <option value="Sylvester">Sylvester</option>
+            <option value="Pacific">Pacific</option>
+            <option value="Chinook">Chinook</option>
+            <option value="Cedar Heights">Cedar Heights</option>
+            <option value="Mattson">Mattson</option>
+            <option value="Meeker">Meeker</option>
+            <option value="Meridian">Meridian</option>
+            <option value="Mill Creek">Mill Creek</option>
+            <option value="Northwood">Northwood</option>
+            <option value="Skykomish">Skykomish</option>
+            <option value="Maple View">Maple View</option>
+            <option value="Summit Trail">Summit Trail</option>
+            <option value="Showalter">Showalter</option>
+            <option value="McMurray">McMurray</option>
+            <option value="Kamiakin">Kamiakin</option>
+            <option value="Evergreen">Evergreen</option>
+            <option value="Rose Hill">Rose Hill</option>
+            <option value="Renaissance">Renaissance</option>
+            <option value="Inglewood">Inglewood</option>
+            <option value="Redmond">Redmond</option>
+            <option value="Fin Hill">Fin Hill</option>
+            <option value="Kirkland">Kirkland</option>
+            <option value="Canyon Park">Canyon Park</option>
+            <option value="Leota">Leota</option>
+            <option value="Kenmore">Kenmore</option>
+            <option value="Timbercrest">Timbercrest</option>
+            <option value="Northshore">Northshore</option>
+            <option value="Chief Kanim">Chief Kanim</option>
+            <option value="Snoqualmie">Snoqualmie</option>
+            <option value="Twin Falls">Twin Falls</option>
+            <option value="Meany">Meany</option>
+            <option value="Whitman">Whitman</option>
+            <option value="Jane Addams">Jane Addams</option>
+            <option value="Madison">Madison</option>
+            <option value="Seattle World School">Seattle World School</option>
+            <option value="Hamilton International">Hamilton International</option>
+            <option value="Eckstein">Eckstein</option>
+          </select>
+        </div>
+      </div>
+      <table id="table">
+        <thead>
+            <tr>
+                <th col-index = 1> District
+                  <select class="table_filter" onchange="filter_rows()">
+                    <option value="all"></option>
+                </select>
+               </th>
+                <th col-index = 2> School </th>
+                <th col-index = 3> Grade Level </th>
+                <th col-index = 4> Enrollment </th>
+            </tr>
+        </thead>
+        <tbody id="table_of_schools">
+          <tr>
+            <td class="which_district"> Auburn </td>
+            <td> Cascade </td>
+            <td> grade level </td>
+            <td> 882 </td>
+          </tr>
+          <tr>
+            <td class="which_district"> Auburn </td>
+            <td> Mt Baker </td>
+            <td> grade level </td>
+            <td> 980 </td>
+          </tr>
+          <tr>
+            <td class="which_district"> Auburn </td>
+            <td> Olympic </td>
+            <td> grade level </td>
+            <td> 902 </td>
+          </tr>
+          <tr>
+            <td class="which_district"> Auburn </td>
+            <td> Rainier </td>
+            <td> grade level </td>
+            <td> 947 </td>
+          </tr>
+          <tr>
+            <td class="which_district"> Highline </td>
+            <td> Glacier </td>
+            <td> grade level </td>
+            <td> 847 </td>
+          </tr>
+          <tr>
+            <td> Highline </td>
+            <td> Sylvester </td>
+            <td> grade level </td>
+            <td> 640 </td>
+          </tr>
+          <tr>
+            <td> Highline </td>
+            <td> Cascade </td>
+            <td> grade level </td>
+            <td> 684 </td>
+          </tr>
+          <tr>
+            <td> Highline </td>
+            <td> Pacific </td>
+            <td> grade level </td>
+            <td> 661 </td>
+          </tr>
+          <tr>
+            <td> Highline </td>
+            <td> Chinook </td>
+            <td> grade level </td>
+            <td> 610 </td>
+          </tr>
+          <tr>
+            <td> Kent </td>
+            <td> Cedar Heights </td>
+            <td> grade level </td>
+            <td> 606 </td>
+          </tr>
+          <tr>
+            <td> Kent </td>
+            <td> Mattson </td>
+            <td> grade level </td>
+            <td> 592 </td>
+          </tr>
+          <tr>
+            <td> Kent </td>
+            <td> Meeker </td>
+            <td> grade level </td>
+            <td> 638 </td>
+          </tr>
+          <tr>
+            <td> Kent </td>
+            <td> Meridian </td>
+            <td> grade level </td>
+            <td> 571 </td>
+          </tr>
+          <tr>
+            <td> Kent </td>
+            <td> Mill Creek </td>
+            <td> grade level </td>
+            <td> 841 </td>
+          </tr>
+          <tr>
+            <td> Kent </td>
+            <td> Northwood </td>
+            <td> grade level </td>
+            <td> 566 </td>
+          </tr>
+          <tr>
+            <td> Skykomish </td>
+            <td> Skykomish </td>
+            <td> grade level </td>
+            <td> 29 </td>
+          </tr>
+          <tr>
+            <td> Tahoma </td>
+            <td> Maple View </td>
+            <td> grade level </td>
+            <td> 969 </td>
+          </tr>
+          <tr>
+            <td> Tahoma </td>
+            <td> Summit Trail </td>
+            <td> grade level </td>
+            <td> 1113 </td>
+          </tr>
+          <tr>
+            <td> Tukwila </td>
+            <td> Showalter </td>
+            <td> grade level </td>
+            <td> 586 </td>
+          </tr>
+          <tr>
+            <td> Vashon Island </td>
+            <td> McMurray </td>
+            <td> grade level </td>
+            <td> 356 </td>
+          </tr>
+          <tr>
+            <td> Lake Washington </td>
+            <td> Kamiakin </td>
+            <td> grade level </td>
+            <td> 621 </td>
+          </tr>
+          <tr>
+            <td> Lake Washington </td>
+            <td> Evergreen </td>
+            <td> grade level </td>
+            <td> 745 </td>
+          </tr>
+          <tr>
+            <td> Lake Washington </td>
+            <td> Rose Hill </td>
+            <td> grade level </td>
+            <td> 935 </td>
+          </tr>
+          <tr>
+            <td> Lake Washington </td>
+            <td> Renaissance </td>
+            <td> grade level </td>
+            <td> 94 </td>
+          </tr>
+          <tr>
+            <td> Lake Washington </td>
+            <td> Inglewood </td>
+            <td> grade level </td>
+            <td> 1176 </td>
+          </tr>
+          <tr>
+            <td> Lake Washington </td>
+            <td> Redmond </td>
+            <td> grade level </td>
+            <td> 955 </td>
+          </tr>
+          <tr>
+            <td> Lake Washington </td>
+            <td> Fin Hill </td>
+            <td> grade level </td>
+            <td> 665 </td>
+          </tr>
+          <tr>
+            <td> Lake Washington </td>
+            <td> Kirkland </td>
+            <td> grade level </td>
+            <td> 545 </td>
+          </tr>
+          <tr>
+            <td> Northshore </td>
+            <td> Canyon Park </td>
+            <td> grade level </td>
+            <td> 894 </td>
+          </tr>
+          <tr>
+            <td> Northshore </td>
+            <td> Leota </td>
+            <td> grade level </td>
+            <td> 816 </td>
+          </tr>
+          <tr>
+            <td> Northshore </td>
+            <td> Kenmore </td>
+            <td> grade level </td>
+            <td> 724 </td>
+          </tr>
+          <tr>
+            <td> Northshore </td>
+            <td> Timbercrest </td>
+            <td> grade level </td>
+            <td> 715 </td>
+          </tr>
+          <tr>
+            <td> Northshore </td>
+            <td> Northshore </td>
+            <td> grade level </td>
+            <td> 876 </td>
+          </tr>
+          <tr>
+            <td> Snoqualmie Valley </td>
+            <td> Chief Kanim </td>
+            <td> grade level </td>
+            <td> 589 </td>
+          </tr>
+          <tr>
+            <td> Snoqualmie Valley </td>
+            <td> Snoqualmie </td>
+            <td> grade level </td>
+            <td> 499 </td>
+          </tr>
+          <tr>
+            <td> Snoqualmie Valley </td>
+            <td> Twin Falls </td>
+            <td> grade level </td>
+            <td> 550 </td>
+          </tr>
+          <tr>
+            <td> Seattle </td>
+            <td> Whitman </td>
+            <td> grade level </td>
+            <td> 672 </td>
+          </tr>
+          <tr>
+            <td> Seattle </td>
+            <td> Jane Addams </td>
+            <td> grade level </td>
+            <td> 965 </td>
+          </tr>
+          <tr>
+            <td> Seattle </td>
+            <td> Madison </td>
+            <td> grade level </td>
+            <td> 969 </td>
+          </tr>
+          <tr>
+            <td> Seattle </td>
+            <td> Seattle World School </td>
+            <td> grade level </td>
+            <td> 215 </td>
+          </tr>
+          <tr>
+            <td> Seattle </td>
+            <td> Hamilton International </td>
+            <td> grade level </td>
+            <td> 924 </td>
+          </tr>
+          <tr>
+            <td> Seattle </td>
+            <td> Eckstein </td>
+            <td> grade level </td>
+            <td> 1055 </td>
+          </tr>
+        </tbody>
+    </responsive-child>
+
+    <script src="app.js" async></script>
+    <% if (json.project.production) { %>
+    <%= !json.project.embedded ? t.include("partials/_analytics.html") : "" %>
+    <%= t.include("partials/_workHere.html") %>
+    <% } %>
+    <script>
+      window.onload = () => {
+          console.log(document.querySelector("#table > tbody > tr:nth-child(1) > td:nth-child(1) ").innerHTML);
+      };
+
+      getUniqueValuesFromColumn()
+  </script>
+  </body>
+</html>
