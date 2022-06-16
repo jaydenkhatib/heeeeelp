@@ -109,6 +109,24 @@
 
 
     })
+      function swap(a, b, direction){
+        var html = a.wrapInner('<tr></tr>').html()
+        a.replaceWith(b.wrapInner('<tr></tr>').html())
+        b.replaceWith(html)
+      }
+      function getParent(cell){ return $(cell).parent('tr') }
+      $(document).ready(function(){
+        $('.upArrow').live('click', function(){
+          var parent = getParent(this)
+          var prev = parent.prev('tr')
+          if(prev.length == 1){ swap(prev, parent); }
+        })
+        $('.downArrow').live('click', function(){
+          var parent = getParent(this)
+          var next = parent.next('tr')
+          if(next.length == 1){ swap(next, parent) }
+        })
+      })
 
 }
 
@@ -197,7 +215,9 @@
                     </select>
                 </th>
                 <th col-index = 3> Grade Level</th>
-                <th col-index = 4> Enrollment </th>
+                <th col-index = 4> Enrollment 
+                  <td class="upArrow">up</td><td class="downArrow">down</td>
+                </th>
             </tr>
         </thead>
         <tbody id="table_of_schools">
