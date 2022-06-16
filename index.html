@@ -104,10 +104,6 @@
 
         }
 
-
-
-
-
     })
       const getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
 
@@ -123,8 +119,8 @@
               .forEach(tr => table.appendChild(tr) );
       })));
 
-
   </script>
+  
   <style>
     th {
         cursor: pointer;
@@ -483,8 +479,6 @@
       window.onload = () => {
           console.log(document.querySelector("#table > tbody > tr:nth-child(1) > td:nth-child(1) ").innerHTML);
       };
-
-      getUniqueValuesFromColumn()
   </script>
   </body>
 </html>
