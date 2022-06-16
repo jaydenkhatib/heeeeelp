@@ -109,26 +109,19 @@
 
 
     })
-      function swap(a, b, direction){
-        var html = a.wrapInner('<tr></tr>').html()
-        a.replaceWith(b.wrapInner('<tr></tr>').html())
-        b.replaceWith(html)
-      }
-      function getParent(cell){ return $(cell).parent('tr') }
-      $(document).ready(function(){
-        $('.upArrow').live('click', function(){
-          var parent = getParent(this)
-          var prev = parent.prev('tr')
-          if(prev.length == 1){ swap(prev, parent); }
-        })
-        $('.downArrow').live('click', function(){
-          var parent = getParent(this)
-          var next = parent.next('tr')
-          if(next.length == 1){ swap(next, parent) }
-        })
-      })
+      const getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
 
-}
+      const comparer = (idx, asc) => (a, b) => ((v1, v2) => 
+          v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2)
+          )(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
+
+      // do the work...
+      document.querySelectorAll('th').forEach(th => th.addEventListener('click', (() => {
+          const table = th.closest('table');
+          Array.from(table.querySelectorAll('tr:nth-child(n+2)'))
+              .sort(comparer(Array.from(th.parentNode.children).indexOf(th), this.asc = !this.asc))
+              .forEach(tr => table.appendChild(tr) );
+      })));
 
 
   </script>
