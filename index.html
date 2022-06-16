@@ -125,6 +125,11 @@
 
 
   </script>
+  <style>
+    th {
+        cursor: pointer;
+    }
+  </style>
   <body>
     <% if (json.project.production && !json.project.embedded) { %>
       <%= t.include("partials/_gtmNoScript.html") %>
